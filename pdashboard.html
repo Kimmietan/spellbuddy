@@ -27,34 +27,28 @@
         }
         .hero {
             background-color: #ffffff;
-            color: #FF4E78 !important; /* orange */
+            color: #FF4E78 !important; /* pink */
         }
-        .logo {
-            text-align: center;
-        }
-        .logo img {
-            max-width: 40%;
-            height: auto;
-        }
-        .text-primary {
-            color: #FF4E78 !important;
-        }
-        .lead {
-            color: #1D79E0 !important;
+        .main-content {
+            background-color: #ffffff;
+            color: #000000;
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">SpellBuddy<span class="text-primary">.net</span></a>
+        <a class="navbar-brand" href="#">Language<span class="text-primary">.com</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal" onclick="changeModalTitle('Login')">Login</a>
+                    <a class="nav-link" href="#">Parent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Child</a>
                 </li>
             </ul>
         </div>
@@ -64,41 +58,46 @@
     <section class="hero text-white text-center py-5">
         <div class="container">
             <h1 class="display-4">Learn a New Language</h1>
-            <div class="logo">
-                <img src="/img/logo.jpeg" alt="Logo">
-            </div>
             <p class="lead">Fun, interactive lessons designed to make language learning enjoyable.</p>
-            <a href="#" class="btn btn-light btn-lg" data-toggle="modal" data-target="#loginModal" onclick="changeModalTitle('Sign Up')">Get Started</a>
+            <a href="#" class="btn btn-light btn-lg">Get Started</a>
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <!-- Main Content Section -->
+    <section class="main-content py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Popular Courses</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Spanish</h5>
+                            <p class="card-text">Learn Spanish with engaging lessons and interactive exercises.</p>
+                            <a href="#" class="btn btn-primary">Start Learning</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <!-- Login Form -->
-                    <form>
-                        <div class="form-group">
-                            <label for="inputEmail">Email address</label>
-                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">French</h5>
+                            <p class="card-text">Embark on a journey to master the French language.</p>
+                            <a href="#" class="btn btn-primary">Start Learning</a>
                         </div>
-                        <div class="form-group">
-                            <label for="inputPassword">Password</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">German</h5>
+                            <p class="card-text">Explore the German language and culture with fun lessons.</p>
+                            <a href="#" class="btn btn-primary">Start Learning</a>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -111,11 +110,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        function changeModalTitle(title) {
-            document.getElementById('loginModalLabel').innerHTML = title;
-        }
-    </script>
 </body>
 </html>
