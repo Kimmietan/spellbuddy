@@ -1,0 +1,72 @@
+body {
+    font-family: 'Fredoka One', cursive;
+    min-height: 100vh;
+    position: relative;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+}
+.hero {
+    background-color: #ffffff;
+    color: #FF4E78 !important; /* pink */
+    /* padding: 0 !important; */
+}
+.dashboard{
+    padding: 0 !important;
+}
+
+.logo {
+    text-align: center;
+    margin: 5px; /* Reduced margin */
+}
+.logo img {
+    max-width: 40%;
+    height: auto;
+}
+/* Need to be customised for pDash and cDash */
+.logodash {
+    text-align: center;
+    margin: 5px; /* Reduced margin */
+}
+.logodash img {
+    max-width: 20%; /* 1/5 of original size */
+    height: auto;
+}
+.text-primary {
+    color: #FF4E78 !important;
+}
+.lead {
+    color: #1D79E0 !important;
+}
+
+.main-content {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.card-title {
+    color: #1D79E0 !important;
+}
+h2 {
+    color: #FF4E78;
+}
+
+.card-body.custom-height {
+    min-height: 300px; /* Adjust the height as needed */
+}
+
+.parent-link a {
+    font-weight: bold; /* Example style */
+    color: #FF4E78 !important; /* Example color */
+}
+
+.child-link a {
+    font-weight: bold; /* Example style */
+    color: #1D79E0 !important; /* Example color */
+}
