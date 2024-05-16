@@ -70,3 +70,7 @@ h2 {
     font-weight: bold; /* Example style */
     color: #1D79E0 !important; /* Example color */
 }
+
+.main-content.dashboard {
+    margin-bottom: 100px; /* Adjust the margin as needed */
+}

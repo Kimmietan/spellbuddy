@@ -10,53 +10,6 @@
     <link rel="stylesheet" href="/css/mystyle.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    <!-- <style>
-        body {
-            font-family: 'Fredoka One', cursive;
-            min-height: 100vh;
-            position: relative;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #343a40;
-            color: #ffffff;
-            text-align: center;
-            padding: 10px 0;
-        }
-        .hero {
-            background-color: #ffffff;
-            color: #FF4E78 !important; /* pink */
-        }
-        .main-content {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        .lead {
-            color: #1D79E0 !important;
-        }
-        .card-title {
-            color: #1D79E0 !important;
-        }
-        h2 {
-            color: #FF4E78;
-        }
-        .text-primary {
-            color: #FF4E78 !important;
-        }
-        .card-body.custom-height {
-            min-height: 300px; /* Adjust the height as needed */
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 10px; /* Reduced margin */
-        }
-        .logo img {
-            max-width: 20%; /* 1/5 of original size */
-            height: auto;
-        }
-    </style> -->
 </head>
 <body>
     <!-- Navigation -->
@@ -86,7 +39,7 @@
     </section>
 
     <!-- Main Content Section -->
-    <section class="main-content dashboard py-5">
+    <section class="main-content dashboard py-5 mb-5">
         <div class="container">
             <div class="logodash">
                 <img src="/img/logo.jpeg" alt="Logo">
@@ -97,8 +50,14 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">Enter Spelling Words</h5>
-                            <p class="card-text">Simply type in the words and save the list with a name!</p>
-                            <a href="#" class="btn btn-primary">Upload Words</a>
+                            <div id="spellingInputs">
+                                <div class="form-group">
+                                    <label for="word1">Word 1</label>
+                                    <input type="text" class="form-control word-input" id="word1" name="word1">
+                                </div>
+                            </div>
+                            <button id="addWordBtn" class="btn btn-success">+ Add Word</button>
+                            <button type="submit" class="btn btn-primary">Save Words</button>
                         </div>
                     </div>
                 </div>
@@ -106,8 +65,50 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">Monitor Your Child's Progress</h5>
-                            <p class="card-text">View the number of attempts your child has made and the results!</p>
-                            <a href="#" class="btn btn-primary">View Latest Progress</a>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Spelling List Name</th>
+                                            <th>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>List 1</td>
+                                            <td>90%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 2</td>
+                                            <td>85%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 3</td>
+                                            <td>75%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 4</td>
+                                            <td>95%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 5</td>
+                                            <td>80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 6</td>
+                                            <td>80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 7</td>
+                                            <td>80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 8</td>
+                                            <td>80%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,8 +116,23 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">Reward Your Child</h5>
-                            <p class="card-text">Customize rewards to incentivise your child and reinforce learning efforts!</p>
-                            <a href="#" class="btn btn-primary">Customize Rewards</a>
+                            <!-- <p class="card-text">Customize rewards to incentivise your child and reinforce learning efforts!</p>
+                            <a href="#" class="btn btn-primary">Customize Rewards</a> -->
+                            <form>
+                                <div class="form-group">
+                                    <!-- <label for="score100">Rewards for 100%</label> -->
+                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="Enter rewards for 100%">
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="score6099">Rewards for 60 - 99%</label> -->
+                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="Enter rewards for 60 - 99%">
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="score60">Rewards for < 60%</label> -->
+                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="Enter rewards for < 60%">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Rewards</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -135,5 +151,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addWordBtn = document.getElementById('addWordBtn');
+            var spellingInputs = document.getElementById('spellingInputs');
+            var wordCount = 1;
+    
+            addWordBtn.addEventListener('click', function() {
+                wordCount++;
+                var newInput = document.createElement('div');
+                newInput.classList.add('form-group');
+                newInput.innerHTML = `
+                    <label for="word${wordCount}">Word ${wordCount}</label>
+                    <input type="text" class="form-control word-input" id="word${wordCount}" name="word${wordCount}">
+                `;
+                spellingInputs.appendChild(newInput);
+            });
+        });
+    </script>
 </body>
 </html>
