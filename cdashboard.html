@@ -18,13 +18,21 @@
             display: flex;
             justify-content: space-between;
         }
-        .table-wrapper, .image-wrapper {
-            width: 48%;
+        .table-wrapper {
+            width: 30%;
+        }
+        .image-wrapper {
+            width: 65%;
         }
         .btn-wrapper {
             display: flex;
             justify-content: center;
             gap: 10px;
+            margin-top: 20px;
+        }
+        .word-heading {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -89,6 +97,7 @@
                                     </div>
                                 </div>
                                 <div class="image-wrapper text-center">
+                                    <h3 class="word-heading">Word 1</h3>
                                     <img src="https://via.placeholder.com/300" alt="Word Image" class="img-fluid mb-3">
                                     <p>Here is a sentence using <strong>Word 1</strong>.</p>
                                     <div class="btn-wrapper">
@@ -142,6 +151,7 @@
             var words = ['Word 1', 'Word 2', 'Word 3'];
             var currentIndex = 0;
             var rows = document.querySelectorAll('tbody tr');
+            var wordHeading = document.querySelector('.word-heading');
             var image = document.querySelector('.image-wrapper img');
             var sentence = document.querySelector('.image-wrapper p');
             var nextBtn = document.getElementById('nextBtn');
@@ -151,6 +161,7 @@
                 rows.forEach(function(row, index) {
                     if (index === currentIndex) {
                         row.classList.add('selected-word');
+                        wordHeading.textContent = words[index];
                         image.src = `https://via.placeholder.com/300?text=${words[index]}`;
                         sentence.innerHTML = `Here is a sentence using <strong>${words[index]}</strong>.`;
                     } else {
