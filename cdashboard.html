@@ -34,6 +34,35 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
+        .test-wrapper {
+            margin-top: 20px;
+        }
+        .test-word-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .test-word-group input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .feedback {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .feedback.correct {
+            background-color: #28a745;
+        }
+        .feedback.incorrect {
+            background-color: #dc3545;
+        }
+        .points-message {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #1D79E0;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +145,28 @@
                         <div class="card-body custom-height">
                             <h5 class="card-title">Take a Spelling Test</h5>
                             <p class="card-text">Test your knowledge and see how well you have learned the words!</p>
-                            <a href="#" class="btn btn-primary">Take Test</a>
+                            <div class="test-wrapper">
+                                <div class="test-word-group">
+                                    <div class="feedback"></div>
+                                    <input type="text" class="form-control" id="testWord1" placeholder="Enter spelling for Word 1">
+                                    <button class="btn btn-primary listen-test" data-index="0">Listen</button>
+                                </div>
+                                <div class="test-word-group">
+                                    <div class="feedback"></div>
+                                    <input type="text" class="form-control" id="testWord2" placeholder="Enter spelling for Word 2">
+                                    <button class="btn btn-primary listen-test" data-index="1">Listen</button>
+                                </div>
+                                <div class="test-word-group">
+                                    <div class="feedback"></div>
+                                    <input type="text" class="form-control" id="testWord3" placeholder="Enter spelling for Word 3">
+                                    <button class="btn btn-primary listen-test" data-index="2">Listen</button>
+                                </div>
+                                <div class="btn-wrapper mt-3">
+                                    <button id="submitBtn" class="btn btn-primary">Submit</button>
+                                    <button id="tryAgainBtn" class="btn btn-secondary">Try Again</button>
+                                </div>
+                                <p class="points-message" id="pointsMessage"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,6 +199,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var words = ['Word 1', 'Word 2', 'Word 3'];
+            var correctSpellings = ['word1', 'word2', 'word3']; // Replace with actual correct spellings
             var currentIndex = 0;
             var rows = document.querySelectorAll('tbody tr');
             var wordHeading = document.querySelector('.word-heading');
@@ -156,6 +207,9 @@
             var sentence = document.querySelector('.image-wrapper p');
             var nextBtn = document.getElementById('nextBtn');
             var listenBtn = document.getElementById('listenBtn');
+            var submitBtn = document.getElementById('submitBtn');
+            var tryAgainBtn = document.getElementById('tryAgainBtn');
+            var pointsMessage = document.getElementById('pointsMessage');
 
             function updateSelection() {
                 rows.forEach(function(row, index) {
@@ -176,7 +230,44 @@
             });
 
             listenBtn.addEventListener('click', function() {
-                alert(`Playing pronunciation for ${words[currentIndex]}`);
+                var word = words[currentIndex];
+                var utterance = new SpeechSynthesisUtterance(word);
+                speechSynthesis.speak(utterance);
+            });
+
+            document.querySelectorAll('.listen-test').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var index = this.getAttribute('data-index');
+                    var word = words[index];
+                    var utterance = new SpeechSynthesisUtterance(word);
+                    speechSynthesis.speak(utterance);
+                });
+            });
+
+            submitBtn.addEventListener('click', function() {
+                var points = 0;
+                words.forEach(function(word, index) {
+                    var input = document.getElementById(`testWord${index + 1}`);
+                    var feedback = input.previousElementSibling;
+                    if (input.value.trim().toLowerCase() === correctSpellings[index]) {
+                        feedback.classList.add('correct');
+                        feedback.classList.remove('incorrect');
+                        points++;
+                    } else {
+                        feedback.classList.add('incorrect');
+                        feedback.classList.remove('correct');
+                    }
+                });
+                pointsMessage.textContent = `You scored ${points} out of ${words.length} points.`;
+            });
+
+            tryAgainBtn.addEventListener('click', function() {
+                document.querySelectorAll('.test-word-group input').forEach(function(input) {
+                    input.value = '';
+                    var feedback = input.previousElementSibling;
+                    feedback.classList.remove('correct', 'incorrect');
+                });
+                pointsMessage.textContent = '';
             });
 
             updateSelection();
