@@ -116,6 +116,7 @@
                                 <div class="btn-wrapper mt-3">
                                     <button id="submitBtn" class="btn btn-primary">Submit</button>
                                     <button id="tryAgainBtn" class="btn btn-secondary d-none">Try Again</button>
+                                    <button id="backToListBtn" class="btn btn-secondary d-none">Back to List</button>
                                 </div>
                                 <p class="points-message" id="pointsMessage"></p>
                             </div>
@@ -151,6 +152,7 @@
             var readyBtn = document.getElementById('readyBtn');
             var submitBtn = document.getElementById('submitBtn');
             var tryAgainBtn = document.getElementById('tryAgainBtn');
+            var backToListBtn = document.getElementById('backToListBtn');
             var pointsMessage = document.getElementById('pointsMessage');
             var viewSpellingListSection = document.getElementById('viewSpellingListSection');
 
@@ -218,9 +220,11 @@
                 if (percentage === 100) {
                     pointsMessage.textContent += " You have earned an ice-cream!";
                     tryAgainBtn.classList.add('d-none');
+                    backToListBtn.classList.add('d-none');
                 } else {
                     pointsMessage.textContent += " You have earned a kiss and hug.";
                     tryAgainBtn.classList.remove('d-none');
+                    backToListBtn.classList.remove('d-none');
                 }
             });
 
@@ -231,6 +235,10 @@
                     feedback.classList.remove('correct', 'incorrect');
                 });
                 pointsMessage.textContent = '';
+            });
+
+            backToListBtn.addEventListener('click', function() {
+                window.location.reload();
             });
 
             updateSelection();
