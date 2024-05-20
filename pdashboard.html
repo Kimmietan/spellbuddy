@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <button id="addWordBtn" class="btn btn-success">+ Add Word</button>
-                            <button type="submit" class="btn btn-primary">Save Words</button>
+                            <button type="submit" class="btn btn-primary" id="saveWordsBtn">Save Words</button>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">Reward Your Child</h5>
-                            <form>
+                            <form id="rewardsForm">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="score100" name="score100" placeholder="Enter rewards for 100%">
                                 </div>
@@ -123,7 +123,7 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="score60" name="score60" placeholder="Enter rewards for < 60%">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Save Rewards</button>
+                                <button type="submit" class="btn btn-primary" id="saveRewardsBtn">Save Rewards</button>
                             </form>
                         </div>
                     </div>
@@ -158,6 +158,20 @@
                     <input type="text" class="form-control word-input" id="word${wordCount}" name="word${wordCount}">
                 `;
                 spellingInputs.appendChild(newInput);
+            });
+
+            var saveRewardsBtn = document.getElementById('saveRewardsBtn');
+            saveRewardsBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                var score100 = document.getElementById('score100').value;
+                var score6099 = document.getElementById('score6099').value;
+                var score60 = document.getElementById('score60').value;
+                localStorage.setItem('rewards', JSON.stringify({
+                    score100: score100,
+                    score6099: score6099,
+                    score60: score60
+                }));
+                alert('Rewards saved!');
             });
         });
     </script>
