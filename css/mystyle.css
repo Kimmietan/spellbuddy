@@ -128,3 +128,6 @@ h2 {
 .nav-link:hover {
     color: #FF4E78 !important;
 }
+.nav-link.logout:hover {
+    color: #1D79E0 !important;
+}
