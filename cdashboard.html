@@ -11,57 +11,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
-        .selected-word {
-            background-color: #d1ecf1;
-        }
-        .content-wrapper {
-            display: flex;
-            justify-content: space-between;
-        }
-        .table-wrapper {
-            width: 30%;
-        }
-        .image-wrapper {
-            width: 65%;
-        }
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .word-heading {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .test-wrapper {
-            margin-top: 20px;
-        }
-        .test-word-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .test-word-group input {
-            flex: 1;
+        .test-word-group .listen-test {
             margin-right: 10px;
-        }
-        .feedback {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-        .feedback.correct {
-            background-color: #28a745;
-        }
-        .feedback.incorrect {
-            background-color: #dc3545;
-        }
-        .points-message {
-            font-weight: bold;
-            margin-top: 10px;
-            color: #1D79E0;
         }
     </style>
 </head>
@@ -92,11 +43,11 @@
     <!-- Main Content Section -->
     <section class="main-content dashboard py-5">
         <div class="container">
-            <div class="logodash">
-                <img src="/img/logo.jpeg" alt="Logo">
+            <div class="logodash text-center mb-4">
+                <img src="/img/logo.jpeg" alt="Logo" class="img-fluid">
             </div>
             <h2 class="text-center mb-4">Your Spelling Journey:</h2>
-            <div class="row">
+            <div id="viewSpellingListSection" class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body custom-height">
@@ -132,6 +83,7 @@
                                     <div class="btn-wrapper">
                                         <button id="listenBtn" class="btn btn-primary">Listen</button>
                                         <button id="nextBtn" class="btn btn-primary">Next</button>
+                                        <button id="readyBtn" class="btn btn-success d-none">Ready to go</button>
                                     </div>
                                 </div>
                             </div>
@@ -147,37 +99,26 @@
                             <p class="card-text">Test your knowledge and see how well you have learned the words!</p>
                             <div class="test-wrapper">
                                 <div class="test-word-group">
-                                    <div class="feedback"></div>
-                                    <input type="text" class="form-control" id="testWord1" placeholder="Enter spelling for Word 1">
                                     <button class="btn btn-primary listen-test" data-index="0">Listen</button>
+                                    <input type="text" class="form-control" id="testWord1" placeholder="Enter spelling for Word 1">
+                                    <div class="feedback"></div>
                                 </div>
                                 <div class="test-word-group">
-                                    <div class="feedback"></div>
-                                    <input type="text" class="form-control" id="testWord2" placeholder="Enter spelling for Word 2">
                                     <button class="btn btn-primary listen-test" data-index="1">Listen</button>
+                                    <input type="text" class="form-control" id="testWord2" placeholder="Enter spelling for Word 2">
+                                    <div class="feedback"></div>
                                 </div>
                                 <div class="test-word-group">
-                                    <div class="feedback"></div>
-                                    <input type="text" class="form-control" id="testWord3" placeholder="Enter spelling for Word 3">
                                     <button class="btn btn-primary listen-test" data-index="2">Listen</button>
+                                    <input type="text" class="form-control" id="testWord3" placeholder="Enter spelling for Word 3">
+                                    <div class="feedback"></div>
                                 </div>
                                 <div class="btn-wrapper mt-3">
                                     <button id="submitBtn" class="btn btn-primary">Submit</button>
-                                    <button id="tryAgainBtn" class="btn btn-secondary">Try Again</button>
+                                    <button id="tryAgainBtn" class="btn btn-secondary d-none">Try Again</button>
                                 </div>
                                 <p class="points-message" id="pointsMessage"></p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body custom-height">
-                            <h5 class="card-title">Earn Rewards</h5>
-                            <p class="card-text">Complete tasks and earn rewards for your hard work!</p>
-                            <a href="#" class="btn btn-primary">View Rewards</a>
                         </div>
                     </div>
                 </div>
@@ -193,7 +134,7 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
@@ -207,9 +148,11 @@
             var sentence = document.querySelector('.image-wrapper p');
             var nextBtn = document.getElementById('nextBtn');
             var listenBtn = document.getElementById('listenBtn');
+            var readyBtn = document.getElementById('readyBtn');
             var submitBtn = document.getElementById('submitBtn');
             var tryAgainBtn = document.getElementById('tryAgainBtn');
             var pointsMessage = document.getElementById('pointsMessage');
+            var viewSpellingListSection = document.getElementById('viewSpellingListSection');
 
             function updateSelection() {
                 rows.forEach(function(row, index) {
@@ -222,6 +165,11 @@
                         row.classList.remove('selected-word');
                     }
                 });
+                if (currentIndex === words.length - 1) {
+                    readyBtn.classList.remove('d-none');
+                } else {
+                    readyBtn.classList.add('d-none');
+                }
             }
 
             nextBtn.addEventListener('click', function() {
@@ -233,6 +181,12 @@
                 var word = words[currentIndex];
                 var utterance = new SpeechSynthesisUtterance(word);
                 speechSynthesis.speak(utterance);
+            });
+
+            readyBtn.addEventListener('click', function() {
+                $('#viewSpellingListSection').fadeOut(1000, function() {
+                    $(this).remove();
+                });
             });
 
             document.querySelectorAll('.listen-test').forEach(function(button) {
@@ -248,8 +202,8 @@
                 var points = 0;
                 words.forEach(function(word, index) {
                     var input = document.getElementById(`testWord${index + 1}`);
-                    var feedback = input.previousElementSibling;
-                    if (input.value.trim().toLowerCase() === correctSpellings[index]) {
+                    var feedback = input.nextElementSibling;
+                    if (input.value.trim().toLowerCase() === word.toLowerCase()) {
                         feedback.classList.add('correct');
                         feedback.classList.remove('incorrect');
                         points++;
@@ -258,13 +212,22 @@
                         feedback.classList.remove('correct');
                     }
                 });
-                pointsMessage.textContent = `You scored ${points} out of ${words.length} points.`;
+                var percentage = Math.round((points / words.length) * 100);
+                pointsMessage.textContent = `You scored ${percentage}% (${points} out of ${words.length} points).`;
+
+                if (percentage === 100) {
+                    pointsMessage.textContent += " You have earned an ice-cream!";
+                    tryAgainBtn.classList.add('d-none');
+                } else {
+                    pointsMessage.textContent += " You have earned a kiss and hug.";
+                    tryAgainBtn.classList.remove('d-none');
+                }
             });
 
             tryAgainBtn.addEventListener('click', function() {
                 document.querySelectorAll('.test-word-group input').forEach(function(input) {
                     input.value = '';
-                    var feedback = input.previousElementSibling;
+                    var feedback = input.nextElementSibling;
                     feedback.classList.remove('correct', 'incorrect');
                 });
                 pointsMessage.textContent = '';
