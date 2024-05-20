@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">SpellBuddy<span class="text-primary">.net</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link logout" href="#" id="logoutBtn">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero dashboard text-white text-center py-5 myhero">
+        <div class="container">
+            <h1 class="display-4">Child's Dashboard</h1>
+            <p class="lead">Master Your Spelling with Ease!</p>
+            <div class="logodash text-center mb-4">
+                <img src="/img/logo.jpeg" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="main-content dashboard py-5 mydash">
+        <div class="container">
+            <h2 class="text-center mb-4 h2-spelling-journey">Your Spelling Journey:</h2>
+            <div id="viewSpellingListSection" class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">View Spelling List</h5>
+                            <p class="card-text">View your spelling list and listen to the words!</p>
+                            <div class="content-wrapper mt-4">
+                                <div class="table-wrapper">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>List Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% lists.forEach(list => { %>
+                                                    <tr class="selected-word">
+                                                        <td><%= list.name %></td>
+                                                    </tr>
+                                                    <% list.words.forEach(word => { %>
+                                                        <tr>
+                                                            <td><%= word.word %></td>
+                                                        </tr>
+                                                    <% }); %>
+                                                <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="image-wrapper text-center">
+                                    <h3 class="word-heading">Word 1</h3>
+                                    <img src="https://via.placeholder.com/300" alt="Word Image" class="img-fluid mb-3">
+                                    <p>Here is a sentence using <strong>Word 1</strong>.</p>
+                                    <div class="btn-wrapper">
+                                        <button id="listenBtn" class="btn btn-primary">Listen</button>
+                                        <button id="nextBtn" class="btn btn-next">Next</button>
+                                        <button id="readyBtn" class="btn btn-success d-none">Ready for Test</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">Take a Spelling Test</h5>
+                            <p class="card-text">Test your knowledge and see how well you have learned the words!</p>
+                            <div class="test-wrapper">
+                                <div class="test-word-group">
+                                    <button class="btn btn-primary listen-test" data-index="0">Listen</button>
+                                    <input type="text" class="form-control" id="testWord1" placeholder="Enter spelling for Word 1">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="test-word-group">
+                                    <button class="btn btn-primary listen-test" data-index="1">Listen</button>
+                                    <input type="text" class="form-control" id="testWord2" placeholder="Enter spelling for Word 2">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="test-word-group">
+                                    <button class="btn btn-primary listen-test" data-index="2">Listen</button>
+                                    <input type="text" class="form-control" id="testWord3" placeholder="Enter spelling for Word 3">
+                                    <div class="feedback"></div>
+                                </div>
+                                <div class="btn-wrapper mt-3">
+                                    <button id="submitBtn" class="btn btn-submit">Submit</button>
+                                    <button id="tryAgainBtn" class="btn btn-try-again d-none">Try Again</button>
+                                    <button id="backToListBtn" class="btn btn-back-to-list d-none">Back to Spelling List</button>
+                                </div>
+                                <p class="points-message" id="pointsMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SpellBuddy.net. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var words = ['Word 1', 'Word 2', 'Word 3'];
+            var correctSpellings = ['word1', 'word2', 'word3']; // Replace with actual correct spellings
+            var currentIndex = 0;
+            var rows = document.querySelectorAll('tbody tr');
+            var wordHeading = document.querySelector('.word-heading');
+            var image = document.querySelector('.image-wrapper img');
+            var sentence = document.querySelector('.image-wrapper p');
+            var nextBtn = document.getElementById('nextBtn');
+            var listenBtn = document.getElementById('listenBtn');
+            var readyBtn = document.getElementById('readyBtn');
+            var submitBtn = document.getElementById('submitBtn');
+            var tryAgainBtn = document.getElementById('tryAgainBtn');
+            var backToListBtn = document.getElementById('backToListBtn');
+            var pointsMessage = document.getElementById('pointsMessage');
+            var viewSpellingListSection = document.getElementById('viewSpellingListSection');
+            var logoutBtn = document.getElementById('logoutBtn');
+
+            // Load rewards from local storage
+            var rewards = JSON.parse(localStorage.getItem('rewards')) || {
+                score100: "You have earned an ice-cream!",
+                score6099: "You have earned a kiss and hug.",
+                score60: "You have earned a pat on the back."
+            };
+
+            function updateSelection() {
+                rows.forEach(function(row, index) {
+                    if (index === currentIndex) {
+                        row.classList.add('selected-word');
+                        wordHeading.textContent = words[index];
+                        image.src = `https://via.placeholder.com/300?text=${words[index]}`;
+                        sentence.innerHTML = `Here is a sentence using <strong>${words[index]}</strong>.`;
+                    } else {
+                        row.classList.remove('selected-word');
+                    }
+                });
+                if (currentIndex === words.length - 1) {
+                    readyBtn.classList.remove('d-none');
+                } else {
+                    readyBtn.classList.add('d-none');
+                }
+            }
+
+            nextBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % words.length;
+                updateSelection();
+            });
+
+            listenBtn.addEventListener('click', function() {
+                var word = words[currentIndex];
+                var utterance = new SpeechSynthesisUtterance(word);
+                speechSynthesis.speak(utterance);
+            });
+
+            readyBtn.addEventListener('click', function() {
+                $('#viewSpellingListSection').fadeOut(1000, function() {
+                    $(this).remove();
+                });
+            });
+
+            document.querySelectorAll('.listen-test').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var index = this.getAttribute('data-index');
+                    var word = words[index];
+                    var utterance = new SpeechSynthesisUtterance(word);
+                    speechSynthesis.speak(utterance);
+                });
+            });
+
+            submitBtn.addEventListener('click', function() {
+                var points = 0;
+                words.forEach(function(word, index) {
+                    var input = document.getElementById(`testWord${index + 1}`);
+                    var feedback = input.nextElementSibling;
+                    if (input.value.trim().toLowerCase() === word.toLowerCase()) {
+                        feedback.classList.add('correct');
+                        feedback.classList.remove('incorrect');
+                        points++;
+                    } else {
+                        feedback.classList.add('incorrect');
+                        feedback.classList.remove('correct');
+                    }
+                });
+                var percentage = Math.round((points / words.length) * 100);
+                pointsMessage.textContent = ` You have scored ${percentage}% (${points} out of ${words.length} points). `;
+
+                if (percentage === 100) {
+                    pointsMessage.textContent += rewards.score100;
+                    tryAgainBtn.classList.add('d-none');
+                    backToListBtn.classList.add('d-none');
+                } else if (percentage >= 60) {
+                    pointsMessage.textContent += rewards.score6099;
+                    tryAgainBtn.classList.remove('d-none');
+                    backToListBtn.classList.remove('d-none');
+                } else {
+                    pointsMessage.textContent += rewards.score60;
+                    tryAgainBtn.classList.remove('d-none');
+                    backToListBtn.classList.remove('d-none');
+                }
+            });
+
+            tryAgainBtn.addEventListener('click', function() {
+                document.querySelectorAll('.test-word-group input').forEach(function(input) {
+                    input.value = '';
+                    var feedback = input.nextElementSibling;
+                    feedback.classList.remove('correct', 'incorrect');
+                });
+                pointsMessage.textContent = '';
+            });
+
+            backToListBtn.addEventListener('click', function() {
+                window.location.reload();
+            });
+
+            logoutBtn.addEventListener('click', function() {
+                window.location.href = '/';
+            });
+
+            updateSelection();
+        });
+    </script>
+</body>
+</html>

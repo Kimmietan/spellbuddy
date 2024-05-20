@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent's Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">SpellBuddy<span class="text-primary">.net</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cdashboard.html">View Child Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero dashboard text-white text-center py-5 myhero">
+        <div class="container">
+            <h1 class="display-4">Parent's Dashboard</h1>
+            <p class="lead">Empower Your Child to Master Spelling Independently!</p>
+            <div class="logodash text-center mb-4">
+                <img src="/img/logo.jpeg" alt="Logo" class="img-fluid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="main-content dashboard py-5 mb-5 mydash">
+        <div class="container">
+            <!-- <div class="logodash text-center mb-4">
+                <img src="/img/logo.jpeg" alt="Logo" class="img-fluid">
+            </div> -->
+            <h2 class="text-center mb-4 h2-steps">3 Easy Steps:</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">Enter Spelling Words</h5>
+                            <div id="spellingInputs">
+                                <div class="form-group">
+                                    <label for="word1">Word 1</label>
+                                    <input type="text" class="form-control word-input" id="word1" name="word1">
+                                </div>
+                            </div>
+                            <button id="addWordBtn" class="btn btn-success">+ Add Word</button>
+                            <button type="submit" class="btn btn-primary" id="saveWordsBtn">Save Words</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">Monitor Your Child's Progress</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Spelling List Name</th>
+                                            <th>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>List 1</td>
+                                            <td>90%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 2</td>
+                                            <td>85%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 3</td>
+                                            <td>75%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 4</td>
+                                            <td>95%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 5</td>
+                                            <td>100% <span class="star">★</span></td> <!-- Example with star -->
+                                        </tr>
+                                        <tr>
+                                            <td>List 6</td>
+                                            <td>80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 7</td>
+                                            <td>80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List 8</td>
+                                            <td>80%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">Reward Your Child</h5>
+                            <form id="rewardsForm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="Enter rewards for 100%">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="Enter rewards for 60 - 99%">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="Enter rewards for < 60%">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="saveRewardsBtn">Save Rewards</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SpellBuddy.net. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addWordBtn = document.getElementById('addWordBtn');
+            var spellingInputs = document.getElementById('spellingInputs');
+            var wordCount = 1;
+
+            addWordBtn.addEventListener('click', function() {
+                wordCount++;
+                var newInput = document.createElement('div');
+                newInput.classList.add('form-group');
+                newInput.innerHTML = `
+                    <label for="word${wordCount}">Word ${wordCount}</label>
+                    <input type="text" class="form-control word-input" id="word${wordCount}" name="word${wordCount}">
+                `;
+                spellingInputs.appendChild(newInput);
+            });
+
+            var saveRewardsBtn = document.getElementById('saveRewardsBtn');
+            saveRewardsBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                var score100 = document.getElementById('score100').value;
+                var score6099 = document.getElementById('score6099').value;
+                var score60 = document.getElementById('score60').value;
+                localStorage.setItem('rewards', JSON.stringify({
+                    score100: score100,
+                    score6099: score6099,
+                    score60: score60
+                }));
+                alert('Rewards saved!');
+            });
+        });
+    </script>
+</body>
+</html>
