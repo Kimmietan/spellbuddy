@@ -36,7 +36,7 @@ body {
 }
 .lead {
     color: #1D79E0 !important;
-    font-size: 1.25rem; /* Increase the font size slightly */
+    font-size: 1.5rem; /* Increase the font size slightly */
 }
 .nav-link:hover {
     color: #FF4E78 !important;
@@ -115,11 +115,11 @@ body {
 }
 .card-title {
     color: #1D79E0 !important;
-    font-size: 1.25rem; /* Increase font size */
+    font-size: 1.5rem; /* Increase font size */
 }
 .table th {
     color: #000000 !important; /* Change to black */
-    background-color: #d3d3d3 !important; /* Light grey background */
+    background-color: #ebeaea !important; /* Light grey background */
     font-size: 1rem; /* Increase font size */
 }
 .table td {

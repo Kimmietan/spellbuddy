@@ -47,7 +47,7 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">View Spelling List</h5>
-                            <p class="card-text">Review your spelling list and listen to the words!</p>
+                            <p class="card-text">View your spelling list and listen to the words!</p>
                             <div class="content-wrapper mt-4">
                                 <div class="table-wrapper">
                                     <div class="table-responsive">
@@ -78,7 +78,7 @@
                                     <div class="btn-wrapper">
                                         <button id="listenBtn" class="btn btn-primary">Listen</button>
                                         <button id="nextBtn" class="btn btn-next">Next</button>
-                                        <button id="readyBtn" class="btn btn-success d-none">Ready to go</button>
+                                        <button id="readyBtn" class="btn btn-success d-none">Ready for Test</button>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                 <div class="btn-wrapper mt-3">
                                     <button id="submitBtn" class="btn btn-submit">Submit</button>
                                     <button id="tryAgainBtn" class="btn btn-try-again d-none">Try Again</button>
-                                    <button id="backToListBtn" class="btn btn-back-to-list d-none">Back to List</button>
+                                    <button id="backToListBtn" class="btn btn-back-to-list d-none">Back to Spelling List</button>
                                 </div>
                                 <p class="points-message" id="pointsMessage"></p>
                             </div>
@@ -211,7 +211,7 @@
                     }
                 });
                 var percentage = Math.round((points / words.length) * 100);
-                pointsMessage.textContent = ` You scored ${percentage}% (${points} out of ${words.length} points). `;
+                pointsMessage.textContent = ` You have scored ${percentage}% (${points} out of ${words.length} points). `;
 
                 if (percentage === 100) {
                     pointsMessage.textContent += " You have earned an ice-cream!";
