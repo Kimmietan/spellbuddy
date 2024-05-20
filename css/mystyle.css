@@ -1,84 +1,68 @@
 body {
     font-family: 'Fredoka One', cursive;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    position: relative;
 }
-
 .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     background-color: #343a40;
     color: #ffffff;
     text-align: center;
     padding: 10px 0;
-    margin-top: auto;
 }
-
 .hero {
     background-color: #ffffff;
     color: #FF4E78 !important; /* pink */
 }
-
 .dashboard {
     padding: 0 !important;
-    flex: 1;
 }
-
 .logo {
     text-align: center;
     margin: 5px; /* Reduced margin */
 }
-
 .logo img {
     max-width: 40%;
     height: auto;
 }
-
 /* Custom styles for cdashboard */
 .logodash {
     text-align: center;
     margin: 5px; /* Reduced margin */
 }
-
 .logodash img {
     max-width: 20%; /* 1/5 of original size */
     height: auto;
 }
-
 .text-primary {
     color: #FF4E78 !important;
 }
-
 .lead {
     color: #1D79E0 !important;
 }
-
 .main-content {
     background-color: #ffffff;
     color: #000000;
 }
-
 .card-title {
     color: #1D79E0 !important;
 }
-
 h2 {
     color: #FF4E78;
 }
-
 .card-body.custom-height {
     min-height: 300px; /* Adjust the height as needed */
 }
-
 .parent-link a {
     font-weight: bold; /* Example style */
     color: #FF4E78 !important; /* Example color */
 }
-
 .child-link a {
     font-weight: bold; /* Example style */
     color: #1D79E0 !important; /* Example color */
 }
-
 .main-content.dashboard {
     margin-bottom: 100px; /* Adjust the margin as needed */
 }
@@ -86,74 +70,61 @@ h2 {
 .selected-word {
     background-color: #d1ecf1;
 }
-
 .content-wrapper {
     display: flex;
     justify-content: space-between;
 }
-
 .table-wrapper {
     width: 30%;
 }
-
 .image-wrapper {
     width: 65%;
 }
-
 .btn-wrapper {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
 }
-
 .word-heading {
     font-size: 24px;
     margin-bottom: 20px;
 }
-
 .test-wrapper {
     margin-top: 20px;
 }
-
 .test-word-group {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
-
-.test-word-group button {
-    margin-right: 10px;
-}
-
 .test-word-group input {
     flex: 1;
+    margin-right: 10px;
 }
-
 .feedback {
     display: inline-block;
     width: 20px;
     height: 20px;
     margin-left: 10px;
 }
-
 .feedback.correct::after {
     content: '✔';
     color: #28a745;
 }
-
 .feedback.incorrect::after {
     content: '✘';
     color: #dc3545;
 }
-
 .points-message {
     font-weight: bold;
     margin-top: 10px;
     color: #1D79E0;
 }
-
 .ready-btn {
     background-color: #28a745;
     color: white;
+}
+.nav-link:hover {
+    color: #FF4E78 !important;
 }
