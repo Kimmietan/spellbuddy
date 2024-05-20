@@ -151,3 +151,9 @@ body {
 .btn-primary:hover {
     color: black !important;
 }
+.mydash {
+    padding-top: 0 !important;
+}
+.myhero {
+    padding-bottom: 0 !important;
+}
