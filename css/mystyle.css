@@ -16,21 +16,16 @@ body {
     background-color: #ffffff;
     color: #FF4E78 !important; /* pink */
 }
-.dashboard {
-    padding: 0 !important;
-}
 .logo {
     text-align: center;
-    margin: 5px; /* Reduced margin */
 }
 .logo img {
     max-width: 40%;
     height: auto;
 }
-/* Custom styles for cdashboard */
 .logodash {
     text-align: center;
-    margin: 5px; /* Reduced margin */
+    margin: 0; /* Remove any unwanted margins */
 }
 .logodash img {
     max-width: 20%; /* 1/5 of original size */
@@ -41,32 +36,17 @@ body {
 }
 .lead {
     color: #1D79E0 !important;
+    font-size: 1.25rem; /* Increase the font size slightly */
 }
-.main-content {
-    background-color: #ffffff;
-    color: #000000;
+.nav-link:hover {
+    color: #FF4E78 !important;
 }
-.card-title {
+.nav-link.logout:hover {
     color: #1D79E0 !important;
 }
-h2 {
-    color: #FF4E78;
+.btn-light:hover {
+    color: #FF4E78 !important;
 }
-.card-body.custom-height {
-    min-height: 300px; /* Adjust the height as needed */
-}
-.parent-link a {
-    font-weight: bold; /* Example style */
-    color: #FF4E78 !important; /* Example color */
-}
-.child-link a {
-    font-weight: bold; /* Example style */
-    color: #1D79E0 !important; /* Example color */
-}
-.main-content.dashboard {
-    margin-bottom: 100px; /* Adjust the margin as needed */
-}
-
 .selected-word {
     background-color: #d1ecf1;
 }
@@ -118,16 +98,53 @@ h2 {
 }
 .points-message {
     font-weight: bold;
-    margin-top: 10px;
-    color: #1D79E0;
+    margin-top: 20px; /* Increase space above the feedback message */
+    font-size: 2rem; /* Increase the font size of the feedback message */
+    color: #000000; /* Change the color to black */
 }
 .ready-btn {
     background-color: #28a745;
     color: white;
 }
-.nav-link:hover {
+.h2-steps {
     color: #FF4E78 !important;
+    font-size: 2rem; /* Match the size of "My Spelling Journey" */
 }
-.nav-link.logout:hover {
+.card-title {
     color: #1D79E0 !important;
+    font-size: 1.25rem; /* Increase font size */
+}
+.table th {
+    color: #000000 !important; /* Change to black */
+    background-color: #d3d3d3 !important; /* Light grey background */
+    font-size: 1rem; /* Increase font size */
+}
+.table td {
+    font-size: 1rem; /* Increase font size */
+}
+.star {
+    color: #FF4E78 !important; /* Change the star color to pink */
+    font-size: 1rem; /* Size of the star */
+}
+.h2-spelling-journey {
+    color: #FF4E78 !important; /* pink */
+}
+.btn-next {
+    background-color: #FF4E78;
+    color: white;
+}
+.btn-submit {
+    background-color: #28a745;
+    color: white;
+}
+.btn-try-again {
+    background-color: #FF4E78;
+    color: white;
+}
+.btn-back-to-list {
+    background-color: #1D79E0;
+    color: white;
+}
+.btn-primary:hover {
+    color: black !important;
 }
