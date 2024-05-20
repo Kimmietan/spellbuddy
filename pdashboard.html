@@ -20,11 +20,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item parent-link"">
-                    <a class="nav-link" href="#">Parent</a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Child</a>
+                    <a class="nav-link" href="cdashboard.html">Link to Child Dashboard</a>
                 </li>
             </ul>
         </div>
@@ -116,19 +113,14 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">Reward Your Child</h5>
-                            <!-- <p class="card-text">Customize rewards to incentivise your child and reinforce learning efforts!</p>
-                            <a href="#" class="btn btn-primary">Customize Rewards</a> -->
                             <form>
                                 <div class="form-group">
-                                    <!-- <label for="score100">Rewards for 100%</label> -->
                                     <input type="text" class="form-control" id="score100" name="score100" placeholder="Enter rewards for 100%">
                                 </div>
                                 <div class="form-group">
-                                    <!-- <label for="score6099">Rewards for 60 - 99%</label> -->
                                     <input type="text" class="form-control" id="score6099" name="score6099" placeholder="Enter rewards for 60 - 99%">
                                 </div>
                                 <div class="form-group">
-                                    <!-- <label for="score60">Rewards for < 60%</label> -->
                                     <input type="text" class="form-control" id="score60" name="score60" placeholder="Enter rewards for < 60%">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save Rewards</button>
@@ -150,13 +142,13 @@
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var addWordBtn = document.getElementById('addWordBtn');
             var spellingInputs = document.getElementById('spellingInputs');
             var wordCount = 1;
-    
+
             addWordBtn.addEventListener('click', function() {
                 wordCount++;
                 var newInput = document.createElement('div');
