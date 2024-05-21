@@ -157,3 +157,6 @@ body {
 .myhero {
     padding-bottom: 0 !important;
 }
+.welcome-email h5 {
+    color: #28A745;
+}

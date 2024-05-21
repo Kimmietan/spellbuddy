@@ -26,6 +26,7 @@ model User {
   id            Int            @id @default(autoincrement())
   email         String         @unique
   spellingLists SpellingList[]
+  rewards       Reward[] 
   createdAt     DateTime       @default(now())
 }
 
@@ -43,6 +44,14 @@ model Word {
   spellingListId Int
   spellingList   SpellingList @relation(fields: [spellingListId], references: [id])
   word           String
-  correct        Boolean
+  correct        Boolean      @default(false)
   createdAt      DateTime     @default(now())
+}
+
+model Reward {
+  id         Int    @id @default(autoincrement())
+  scoreRange String
+  reward     String
+  userId     Int
+  user       User   @relation(fields: [userId], references: [id])
 }

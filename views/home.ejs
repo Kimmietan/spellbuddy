@@ -48,10 +48,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="emailForm">
+          <form id="emailForm" action="/get-lists" method="post">
             <div class="form-group">
               <label for="userEmail">Email address</label>
-              <input type="email" class="form-control" id="userEmail" required>
+              <input type="email" class="form-control" id="userEmail" name="email" required>
             </div>
             <button type="submit" class="btn btn-primary">Enter</button>
           </form>
@@ -72,6 +72,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    // Optionally, you can use AJAX to submit the form and handle the redirect in JavaScript
     document.getElementById('emailForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('userEmail').value;
@@ -83,9 +84,11 @@
         },
         body: JSON.stringify({ email })
       })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = '/parent-dashboard';
+      .then(response => {
+        console.log('Response received:', response);
+        if (response.ok) {
+          window.location.href = '/parent-dashboard';
+        }
       })
       .catch(error => {
         console.error('Error:', error);

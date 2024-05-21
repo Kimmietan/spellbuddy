@@ -35,6 +35,9 @@
             <div class="logodash text-center mb-4">
                 <img src="/img/logo.jpeg" alt="Logo" class="img-fluid">
             </div>
+            <div class="welcome-email">
+                <h5 style="color: #5FDE80;">Welcome, <%= email %></h5>
+            </div>
         </div>
     </section>
 
@@ -54,7 +57,7 @@
                                 </div>
                             </div>
                             <button id="addWordBtn" class="btn btn-success">+ Add Word</button>
-                            <button type="submit" class="btn btn-primary" id="saveWordsBtn">Save Words</button>
+                            <button type="button" class="btn btn-primary" id="saveWordsBtn" data-toggle="modal" data-target="#listNameModal">Save Words</button>
                         </div>
                     </div>
                 </div>
@@ -111,6 +114,29 @@
         </div>
     </section>
 
+    <!-- List Name Modal -->
+    <div class="modal fade" id="listNameModal" tabindex="-1" role="dialog" aria-labelledby="listNameModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="listNameModalLabel">Enter List Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="listNameForm">
+                        <div class="form-group">
+                            <label for="listName">List Name</label>
+                            <input type="text" class="form-control" id="listName" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save List</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -119,9 +145,9 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var addWordBtn = document.getElementById('addWordBtn');
@@ -137,20 +163,67 @@
                     <input type="text" class="form-control word-input" id="word${wordCount}" name="word${wordCount}">
                 `;
                 spellingInputs.appendChild(newInput);
+                document.getElementById(`word${wordCount}`).focus();
             });
 
-            var saveRewardsBtn = document.getElementById('saveRewardsBtn');
-            saveRewardsBtn.addEventListener('click', function(event) {
+            document.getElementById('listNameForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var listName = document.getElementById('listName').value;
+                var words = [];
+                for (var i = 1; i <= wordCount; i++) {
+                    var word = document.getElementById(`word${i}`).value;
+                    if (word) {
+                        words.push(word);
+                    }
+                }
+
+                // Send listName and words to the server
+                fetch('/save-list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ listName, words })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('List saved successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error saving list. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            document.getElementById('rewardsForm').addEventListener('submit', function(event) {
                 event.preventDefault();
                 var score100 = document.getElementById('score100').value;
                 var score6099 = document.getElementById('score6099').value;
                 var score60 = document.getElementById('score60').value;
-                localStorage.setItem('rewards', JSON.stringify({
-                    score100: score100,
-                    score6099: score6099,
-                    score60: score60
-                }));
-                alert('Rewards saved!');
+
+                // Send rewards to the server
+                fetch('/save-rewards', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ score100, score6099, score60 })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Rewards saved successfully!');
+                    } else {
+                        alert('Error saving rewards. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             });
         });
     </script>
