@@ -124,6 +124,25 @@ app.get('/get-list/:id', async (req, res) => {
   else res.status(404).json({ error: 'List not found' });
 });
 
+app.delete('/delete-list/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.word.deleteMany({
+      where: { spellingListId: parseInt(id, 10) }
+    });
+
+    await prisma.spellingList.delete({
+      where: { id: parseInt(id, 10) }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting list:', error);
+    res.json({ success: false, error: 'Error deleting list' });
+  }
+});
+
 app.post('/save-rewards', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.status(403).json({ success: false, error: 'Unauthorized' });
@@ -133,13 +152,27 @@ app.post('/save-rewards', async (req, res) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
 
-    await prisma.reward.createMany({
-      data: [
-        { scoreRange: '100', reward: score100, userId: user.id },
-        { scoreRange: '60-99', reward: score6099, userId: user.id },
-        { scoreRange: '<60', reward: score60, userId: user.id }
-      ]
-    });
+    // Update or create the rewards
+    const rewardsData = [
+      { scoreRange: '100', reward: score100, userId: user.id },
+      { scoreRange: '60-99', reward: score6099, userId: user.id },
+      { scoreRange: '<60', reward: score60, userId: user.id }
+    ];
+
+    for (const rewardData of rewardsData) {
+      await prisma.reward.upsert({
+        where: {
+          userId_scoreRange: {
+            userId: rewardData.userId,
+            scoreRange: rewardData.scoreRange
+          }
+        },
+        update: {
+          reward: rewardData.reward
+        },
+        create: rewardData
+      });
+    }
 
     res.json({ success: true });
   } catch (error) {

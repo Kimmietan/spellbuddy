@@ -48,10 +48,21 @@ model Word {
   createdAt      DateTime     @default(now())
 }
 
+
 model Reward {
   id         Int    @id @default(autoincrement())
   scoreRange String
   reward     String
   userId     Int
   user       User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, scoreRange])
 }
+
+//model Reward {
+//  id         Int    @id @default(autoincrement())
+//  scoreRange String
+//  reward     String
+//  userId     Int
+//  user       User   @relation(fields: [userId], references: [id])
+//}

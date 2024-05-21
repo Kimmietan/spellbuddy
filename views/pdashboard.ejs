@@ -76,7 +76,7 @@
                                     <tbody>
                                         <% lists.forEach(list => { %>
                                             <tr>
-                                                <td><%= list.name %></td>
+                                                <td><a href="#" class="list-link" data-list-id="<%= list.id %>"><%= list.name %></a></td>
                                                 <td>
                                                     <%= list.score %>%
                                                     <% if (list.score === 100) { %>
@@ -97,13 +97,16 @@
                             <h5 class="card-title">Reward Your Child</h5>
                             <form id="rewardsForm">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="Enter rewards for 100%">
+                                    <label for="score100">Rewards for 100%</label>
+                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="<%= rewards.find(r => r.scoreRange === '100')?.reward || '-' %>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="Enter rewards for 60 - 99%">
+                                    <label for="score6099">Rewards for 60 - 99%</label>
+                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="<%= rewards.find(r => r.scoreRange === '60-99')?.reward || '-' %>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="Enter rewards for < 60%">
+                                    <label for="score60">Rewards for < 60%</label>
+                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="<%= rewards.find(r => r.scoreRange === '<60')?.reward || '-' %>">
                                 </div>
                                 <button type="submit" class="btn btn-primary" id="saveRewardsBtn">Save Rewards</button>
                             </form>
@@ -137,6 +140,26 @@
         </div>
     </div>
 
+    <!-- Words List Modal -->
+    <div class="modal fade" id="wordsListModal" tabindex="-1" role="dialog" aria-labelledby="wordsListModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="wordsListModalLabel">Words in List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="wordsList" class="list-group">
+                        <!-- Words will be dynamically inserted here -->
+                    </ul>
+                    <button id="deleteListBtn" class="btn btn-danger mt-3">Delete List</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -147,12 +170,13 @@
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var addWordBtn = document.getElementById('addWordBtn');
             var spellingInputs = document.getElementById('spellingInputs');
             var wordCount = 1;
+            var currentListId = null;
 
             addWordBtn.addEventListener('click', function() {
                 wordCount++;
@@ -170,11 +194,22 @@
                 event.preventDefault();
                 var listName = document.getElementById('listName').value;
                 var words = [];
+                var hasEmptyWord = false;
+
                 for (var i = 1; i <= wordCount; i++) {
-                    var word = document.getElementById(`word${i}`).value;
-                    if (word) {
+                    var word = document.getElementById(`word${i}`).value.trim();
+                    if (!word) {
+                        hasEmptyWord = true;
+                        document.getElementById(`word${i}`).classList.add('is-invalid');
+                    } else {
+                        document.getElementById(`word${i}`).classList.remove('is-invalid');
                         words.push(word);
                     }
+                }
+
+                if (hasEmptyWord) {
+                    alert('Please fill in all word fields before saving the list.');
+                    return;
                 }
 
                 // Send listName and words to the server
@@ -224,6 +259,49 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            });
+
+            document.querySelectorAll('.list-link').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    currentListId = this.getAttribute('data-list-id');
+                    fetch(`/get-list/${currentListId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var wordsList = document.getElementById('wordsList');
+                            wordsList.innerHTML = '';
+                            data.words.forEach(function(word) {
+                                var listItem = document.createElement('li');
+                                listItem.classList.add('list-group-item');
+                                listItem.textContent = word.word;
+                                wordsList.appendChild(listItem);
+                            });
+                            $('#wordsListModal').modal('show');
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+            });
+
+            document.getElementById('deleteListBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this list?')) {
+                    fetch(`/delete-list/${currentListId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('List deleted successfully!');
+                            location.reload();
+                        } else {
+                            alert('Error deleting list. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
             });
         });
     </script>
