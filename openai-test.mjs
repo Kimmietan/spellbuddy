@@ -7,7 +7,7 @@ const openai = new OpenAIApi(configuration);
 async function main() {
   try {
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [{ role: "user", content: "Create a short and simple sentence using the word sad that is easy to understand for children below 10 years old." }],
       max_tokens: 20,
     });
