@@ -197,5 +197,6 @@ app.get('/get-sentence/:word', async (req, res) => {
 });
 
 app.listen(port, () => {
+  console.log('My process.env', process.env)
   console.log(`Server is running on http://localhost:${port}`);
 });
