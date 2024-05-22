@@ -2,11 +2,18 @@ const express = require('express');
 const session = require('express-session');
 const { PrismaClient } = require('@prisma/client');
 const path = require('path');
+const axios = require('axios');
 require('dotenv').config();
+const { OpenAIApi, Configuration } = require('openai');
 
 const app = express();
 const prisma = new PrismaClient();
 const port = process.env.PORT || 3000;
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+});
+const openai = new OpenAIApi(configuration);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -79,12 +86,17 @@ app.get('/child-dashboard', async (req, res) => {
     where: { email },
     include: {
       spellingLists: {
-        include: { words: true }
+        include: { words: true },
+        orderBy: { createdAt: 'desc' },
+        take: 1
       }
     }
   });
 
-  res.render('cdashboard', { lists: user.spellingLists });
+  const lists = user.spellingLists;
+  const words = lists.length > 0 ? lists[0].words.map(word => word.word) : [];
+
+  res.render('cdashboard', { lists, words, currentIndex: 0 });
 });
 
 app.post('/save-list', async (req, res) => {
@@ -124,25 +136,6 @@ app.get('/get-list/:id', async (req, res) => {
   else res.status(404).json({ error: 'List not found' });
 });
 
-app.delete('/delete-list/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    await prisma.word.deleteMany({
-      where: { spellingListId: parseInt(id, 10) }
-    });
-
-    await prisma.spellingList.delete({
-      where: { id: parseInt(id, 10) }
-    });
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error deleting list:', error);
-    res.json({ success: false, error: 'Error deleting list' });
-  }
-});
-
 app.post('/save-rewards', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.status(403).json({ success: false, error: 'Unauthorized' });
@@ -152,7 +145,6 @@ app.post('/save-rewards', async (req, res) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
 
-    // Update or create the rewards
     const rewardsData = [
       { scoreRange: '100', reward: score100, userId: user.id },
       { scoreRange: '60-99', reward: score6099, userId: user.id },
@@ -163,7 +155,7 @@ app.post('/save-rewards', async (req, res) => {
       await prisma.reward.upsert({
         where: {
           userId_scoreRange: {
-            userId: rewardData.userId,
+            userId: user.id,
             scoreRange: rewardData.scoreRange
           }
         },
@@ -178,6 +170,29 @@ app.post('/save-rewards', async (req, res) => {
   } catch (error) {
     console.error('Error saving rewards:', error);
     res.json({ success: false, error: 'Error saving rewards' });
+  }
+});
+
+app.get('/get-image/:word', async (req, res) => {
+  const { word } = req.params;
+  const imageUrl = `https://via.placeholder.com/300?text=${word}`;
+  res.json({ imageUrl });
+});
+
+app.get('/get-sentence/:word', async (req, res) => {
+  const { word } = req.params;
+  try {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: `Create a short and simple sentence using the word "${word}" that is easy to understand for children below 10 years old.` }],
+      max_tokens: 20,
+    });
+
+    const sentence = response.data.choices[0].message.content.trim();
+    res.json({ sentence });
+  } catch (error) {
+    console.error('Error fetching sentence:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to fetch sentence' });
   }
 });
 

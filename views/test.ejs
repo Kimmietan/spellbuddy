@@ -19,24 +19,8 @@
 
     <!-- Main Content -->
     <div class="container mt-5">
-        <h1 class="text-center mb-4">All Users, Spelling Lists, and Words</h1>
-        <% users.forEach(user => { %>
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h3>User: <%= user.email %></h3>
-                </div>
-                <div class="card-body">
-                    <% user.spellingLists.forEach(list => { %>
-                        <h4>List: <%= list.name %></h4>
-                        <ul>
-                            <% list.words.forEach(word => { %>
-                                <li><%= word.word %> (<%= word.correct ? 'Correct' : 'Incorrect' %>)</li>
-                            <% }) %>
-                        </ul>
-                    <% }) %>
-                </div>
-            </div>
-        <% }) %>
+        <h1 class="text-center mb-4">Testing</h1>
+
     </div>
 
     <!-- Footer -->
