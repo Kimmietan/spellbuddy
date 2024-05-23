@@ -42,7 +42,7 @@ model SpellingList {
 model Word {
   id             Int          @id @default(autoincrement())
   spellingListId Int
-  spellingList   SpellingList @relation(fields: [spellingListId], references: [id])
+  spellingList   SpellingList @relation(fields: [spellingListId], references: [id], onDelete: Cascade)
   word           String
   correct        Boolean      @default(false)
   createdAt      DateTime     @default(now())

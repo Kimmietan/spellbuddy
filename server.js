@@ -136,6 +136,21 @@ app.get('/get-list/:id', async (req, res) => {
   else res.status(404).json({ error: 'List not found' });
 });
 
+app.delete('/delete-list/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.spellingList.delete({
+      where: {
+        id: Number(id)
+      }
+    })
+    res.status(200).json({ success: true })
+  } catch {
+    res.status(404).json({ error: 'Delete failed' });
+  }
+});
+
 app.post('/save-rewards', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.status(403).json({ success: false, error: 'Unauthorized' });
