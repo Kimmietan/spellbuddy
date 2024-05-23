@@ -89,14 +89,16 @@ app.get('/child-dashboard', async (req, res) => {
         include: { words: true },
         orderBy: { createdAt: 'desc' },
         take: 1
-      }
+      },
+      rewards: true
     }
   });
 
   const lists = user.spellingLists;
   const words = lists.length > 0 ? lists[0].words.map(word => word.word) : [];
+  const rewards = user.rewards;
 
-  res.render('cdashboard', { lists, words, currentIndex: 0 });
+  res.render('cdashboard', { lists, words, currentIndex: 0, rewards });
 });
 
 app.post('/save-list', async (req, res) => {
@@ -212,6 +214,5 @@ app.get('/get-sentence/:word', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('My process.env', process.env)
   console.log(`Server is running on http://localhost:${port}`);
 });
