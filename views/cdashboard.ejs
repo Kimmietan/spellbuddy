@@ -21,6 +21,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="#">Logged in as: <%= email %></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link logout" href="#" id="logoutBtn">Log Out</a>
                 </li>
             </ul>
@@ -239,27 +242,28 @@
                         rewardMessage = reward.reward;
                     }
                 });
-                    // Send score to the server to update the highest score
-            fetch('/update-high-score', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: <%= userId %>, // Assuming userId is available in the EJS template
-                    listId: <%= lists[0].id %>, // Assuming lists[0].id is the id of the current list
-                    score: percentage
+                // Send score to the server to update the highest score
+                fetch('/update-high-score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: <%= userId %>, // Assuming userId is available in the EJS template
+                        listId: <%= lists[0].id %>, // Assuming lists[0].id is the id of the current list
+                        score: percentage
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.success) {
-                    console.error('Error updating highest score:', data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Error updating highest score:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                
                 pointsMessage.innerHTML += `<p>You have earned this reward: <span style="color: #FF4E78;">${rewardMessage}</span>.</p>`;
 
                 if (percentage === 100) {
