@@ -169,3 +169,7 @@ body {
 .welcome-email h5 {
     color: #28A745;
 }
+.latest-list {
+    background-color: #d1ecf1; /* light blue background */
+    font-weight: bold; /* bold text */
+}

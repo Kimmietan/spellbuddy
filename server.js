@@ -28,6 +28,9 @@ app.use(session({
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
+// Add your Pexels API key in the .env file as PEXELS_API_KEY
+const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
+
 app.get('/', (req, res) => {
   res.render('home');
 });
@@ -62,7 +65,8 @@ app.get('/parent-dashboard', async (req, res) => {
     where: { email },
     include: {
       spellingLists: {
-        include: { words: true }
+        include: { words: true },
+        orderBy: { createdAt: 'desc' } // Sort lists by creation date in descending order
       },
       rewards: true
     }
@@ -77,6 +81,7 @@ app.get('/parent-dashboard', async (req, res) => {
 
   res.render('pdashboard', { lists: listsWithScores, rewards: user.rewards, email });
 });
+
 
 app.get('/child-dashboard', async (req, res) => {
   const email = req.session.email;
@@ -98,7 +103,7 @@ app.get('/child-dashboard', async (req, res) => {
   const words = lists.length > 0 ? lists[0].words.map(word => word.word) : [];
   const rewards = user.rewards;
 
-  res.render('cdashboard', { lists, words, currentIndex: 0, rewards });
+  res.render('cdashboard', { lists, words, currentIndex: 0, rewards, email });
 });
 
 app.post('/save-list', async (req, res) => {
@@ -192,8 +197,18 @@ app.post('/save-rewards', async (req, res) => {
 
 app.get('/get-image/:word', async (req, res) => {
   const { word } = req.params;
-  const imageUrl = `https://via.placeholder.com/300?text=${word}`;
-  res.json({ imageUrl });
+  try {
+    const response = await axios.get(`https://api.pexels.com/v1/search?query=${encodeURIComponent(word)}&per_page=1`, {
+      headers: {
+        Authorization: PEXELS_API_KEY
+      }
+    });
+    const imageUrl = response.data.photos[0]?.src.medium || 'https://via.placeholder.com/300?text=No+Image+Found';
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    res.status(500).json({ error: 'Failed to fetch image' });
+  }
 });
 
 app.get('/get-sentence/:word', async (req, res) => {
@@ -201,7 +216,7 @@ app.get('/get-sentence/:word', async (req, res) => {
   try {
     const response = await openai.createChatCompletion({
       model: "gpt-4o",
-      messages: [{ role: "user", content: `Create a short and simple sentence using the word "${word}" that is easy to understand for children below 10 years old.` }],
+      messages: [{ role: "user", content: `Create a short and simple sentence using the word "${word}" that is easy to understand for children below 10 years old. Make it positive and funny if possible` }],
       max_tokens: 20,
     });
 
