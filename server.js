@@ -82,7 +82,6 @@ app.get('/parent-dashboard', async (req, res) => {
   res.render('pdashboard', { lists: listsWithScores, rewards: user.rewards, email });
 });
 
-
 app.get('/child-dashboard', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.redirect('/');
@@ -103,7 +102,14 @@ app.get('/child-dashboard', async (req, res) => {
   const words = lists.length > 0 ? lists[0].words.map(word => word.word) : [];
   const rewards = user.rewards;
 
-  res.render('cdashboard', { lists, words, currentIndex: 0, rewards, email });
+  res.render('cdashboard', { 
+    email: user.email,
+    userId: user.id,
+    lists: lists,
+    words: words,
+    currentIndex: 0,
+    rewards: rewards 
+  });
 });
 
 app.post('/save-list', async (req, res) => {
@@ -129,6 +135,60 @@ app.post('/save-list', async (req, res) => {
   } catch (error) {
     console.error('Error saving list:', error);
     res.json({ success: false, error: 'Error saving list' });
+  }
+});
+
+app.post('/submit-test', async (req, res) => {
+  const { listId, correctWordsCount, totalWords } = req.body;
+
+  try {
+    const list = await prisma.spellingList.findUnique({ where: { id: listId } });
+    if (!list) return res.status(404).json({ error: 'List not found' });
+
+    const score = totalWords > 0 ? Math.round((correctWordsCount / totalWords) * 100) : 0;
+
+    // Update highest score if the current score is higher
+    if (score > list.highestScore) {
+      await prisma.spellingList.update({
+        where: { id: listId },
+        data: { highestScore: score }
+      });
+    }
+
+    res.json({ success: true, score, highestScore: Math.max(score, list.highestScore) });
+  } catch (error) {
+    console.error('Error submitting test:', error);
+    res.json({ success: false, error: 'Error submitting test' });
+  }
+});
+
+app.post('/update-high-score', async (req, res) => {
+  const { userId, listId, score } = req.body;
+
+  try {
+    // Find the current highest score
+    const list = await prisma.spellingList.findUnique({
+      where: {
+        id: listId,
+      },
+    });
+
+    if (list && score > list.highestScore) {
+      // Update the highest score
+      await prisma.spellingList.update({
+        where: {
+          id: listId,
+        },
+        data: {
+          highestScore: score,
+        },
+      });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, error: 'Error updating highest score' });
   }
 });
 

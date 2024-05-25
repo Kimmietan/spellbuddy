@@ -75,22 +75,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <% lists.forEach(list => { %>
-                                            <tr>
-                                                <td><a href="#" class="list-link" data-list-id="<%= list.id %>"><%= list.name %></a></td>
-                                                <td>
-                                                    <%= list.score %>%
-                                                    <% if (list.score === 100) { %>
-                                                        <span class="star">★</span>
-                                                    <% } %>
-                                                </td>
-                                            </tr>
-                                        <% }); %> -->
                                         <% lists.forEach((list, index) => { %>
                                             <tr class="<%= index === 0 ? 'latest-list' : '' %>">
                                                 <td><a href="#" class="list-link" data-list-id="<%= list.id %>"><%= list.name %></a></td>
                                                 <td>
-                                                    <%= list.score %>%
+                                                    <%= list.highestScore %>%
                                                     <% if (list.score === 100) { %>
                                                         <span class="star">★</span>
                                                     <% } %>
