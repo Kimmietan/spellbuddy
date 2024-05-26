@@ -29,9 +29,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logged in as: <%= email %></a>
-                </li>
+                <!-- <li class="nav-item"> -->
+                    <!-- <a class="nav-link" href="#">Logged in as: <%= email %></a> -->
+                <!-- </li> -->
                 <li class="nav-item">
                     <a class="nav-link logout" href="#" id="logoutBtn">Log Out</a>
                 </li>
@@ -108,7 +108,7 @@
                                 <% words.forEach((word, index) => { %>
                                 <div class="test-word-group">
                                     <button class="btn btn-primary listen-test" data-index="<%= index %>">Listen</button>
-                                    <input type="text" class="form-control" id="testWord<%= index + 1 %>" placeholder="Enter spelling for Word <%= index + 1 %>">
+                                    <input type="text" class="form-control" id="testWord<%= index + 1 %>" placeholder="Enter spelling for Word <%= index + 1 %>" autocomplete="off">
                                     <div class="feedback"></div>
                                 </div>
                                 <% }); %>
