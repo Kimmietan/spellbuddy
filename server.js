@@ -102,13 +102,13 @@ app.get('/child-dashboard', async (req, res) => {
   const words = lists.length > 0 ? lists[0].words.map(word => word.word) : [];
   const rewards = user.rewards;
 
-  res.render('cdashboard', { 
+  res.render('cdashboard', {
     email: user.email,
     userId: user.id,
     lists: lists,
     words: words,
     currentIndex: 0,
-    rewards: rewards 
+    rewards: rewards
   });
 });
 
@@ -147,6 +147,22 @@ app.post('/submit-test', async (req, res) => {
 
     const score = totalWords > 0 ? Math.round((correctWordsCount / totalWords) * 100) : 0;
 
+    // Find the appropriate reward based on the score
+    const rewards = await prisma.reward.findMany({
+      where: { userId: list.userId }
+    });
+    let highestReward = null;
+
+    rewards.forEach(reward => {
+      if (score === 100 && reward.scoreRange === '100') {
+        highestReward = reward.reward;
+      } else if (score >= 60 && score < 100 && reward.scoreRange === '60-99') {
+        highestReward = reward.reward;
+      } else if (score < 60 && reward.scoreRange === '<60') {
+        highestReward = reward.reward;
+      }
+    });
+
     // Update highest score if the current score is higher
     if (score > list.highestScore) {
       await prisma.spellingList.update({
@@ -174,6 +190,23 @@ app.post('/update-high-score', async (req, res) => {
     });
 
     if (list && score > list.highestScore) {
+
+      // Find the appropriate reward based on the score
+      const rewards = await prisma.reward.findMany({
+        where: { userId }
+      });
+      let highestReward = null;
+
+      rewards.forEach(reward => {
+        if (score === 100 && reward.scoreRange === '100') {
+          highestReward = reward.reward;
+        } else if (score >= 60 && score < 100 && reward.scoreRange === '60-99') {
+          highestReward = reward.reward;
+        } else if (score < 60 && reward.scoreRange === '<60') {
+          highestReward = reward.reward;
+        }
+      });
+
       // Update the highest score
       await prisma.spellingList.update({
         where: {
@@ -181,6 +214,7 @@ app.post('/update-high-score', async (req, res) => {
         },
         data: {
           highestScore: score,
+          highestReward
         },
       });
     }

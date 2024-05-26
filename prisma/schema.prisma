@@ -37,7 +37,8 @@ model SpellingList {
   user      User     @relation(fields: [userId], references: [id])
   words     Word[]
   createdAt DateTime @default(now())
-  highestScore Int      @default(0) // Add this line
+  highestScore Int      @default(0)
+  highestReward String?   // Add this line
 }
 
 model Word {

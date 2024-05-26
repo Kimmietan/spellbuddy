@@ -19,6 +19,22 @@
 
     gtag('config', 'G-QRW0HHWQQF');
     </script>
+    <style>
+        .score-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .score {
+            display: inline-block;
+        }
+
+        .star {
+            color: #FF4E78 !important; /* pink */
+            margin-left: 5px; /* Space between the score and the star */
+            font-size: 1rem; /* Size of the star */
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -81,6 +97,7 @@
                                         <tr>
                                             <th>Spelling List Name</th>
                                             <th>Score</th>
+                                            <th>Highest Reward</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,11 +105,14 @@
                                             <tr class="<%= index === 0 ? 'latest-list' : '' %>">
                                                 <td><a href="#" class="list-link" data-list-id="<%= list.id %>"><%= list.name %></a></td>
                                                 <td>
-                                                    <%= list.highestScore %>%
-                                                    <% if (list.highestScore === 100) {%>
-                                                        <span class="star">★</span>
-                                                    <% } %>
+                                                    <div class="score-container">
+                                                        <span class="score"><%= list.highestScore %>%</span>
+                                                        <% if (list.highestScore === 100) { %>
+                                                            <span class="star">★</span>
+                                                        <% } %>
+                                                    </div>
                                                 </td>
+                                                <td><%= list.highestReward %></td>
                                             </tr>
                                         <% }); %>
                                     </tbody>

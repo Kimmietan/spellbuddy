@@ -135,10 +135,6 @@ body {
 .table td {
     font-size: 1rem; /* Increase font size */
 }
-.star {
-    color: #FF4E78 !important; /* Change the star color to pink */
-    font-size: 1rem; /* Size of the star */
-}
 .h2-spelling-journey {
     color: #FF4E78 !important; /* pink */
 }
@@ -173,4 +169,17 @@ body {
 .latest-list {
     background-color: #d1ecf1; /* light blue background */
     font-weight: bold; /* bold text */
+}
+.score-container {
+    display: flex;
+    align-items: center;
+}
+.score {
+    display: inline-block;
+}
+.star {
+    display: inline-block;
+    color: #FF4E78 !important; /* pink */
+    margin-left: 5px; /* Space between the score and the star */
+    font-size: 1rem; /* Size of the star */
 }
