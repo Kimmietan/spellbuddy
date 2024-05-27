@@ -47,7 +47,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/child-dashboard">View Child Dashboard</a>
+                    <a class="nav-link" href="/child-dashboard">To Child Dashboard ></a>
                 </li>
             </ul>
         </div>
@@ -75,14 +75,16 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body custom-height">
-                            <h5 class="card-title">Enter Spelling Words</h5>
+                            <h5 class="card-title">1. Enter Spelling Words</h5>
+                            <p class="mysubtitle">Simply enter words in your spelling list!</p>
+                            
                             <div id="spellingInputs">
                                 <div class="form-group">
                                     <label for="word1">Word 1</label>
                                     <input type="text" class="form-control word-input" id="word1" name="word1">
                                 </div>
                             </div>
-                            <button id="addWordBtn" class="btn btn-success">+ Add Word</button>
+                            <button id="addWordBtn" class="btn btn-success">Add Word</button>
                             <button type="button" class="btn btn-primary" id="saveWordsBtn" data-toggle="modal" data-target="#listNameModal">Save Words</button>
                         </div>
                     </div>
@@ -90,7 +92,33 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body custom-height">
-                            <h5 class="card-title">Monitor Your Child's Progress</h5>
+                            <h5 class="card-title">2. Reward Your Child</h5>
+                            <p class="mysubtitle">Customise rewards to incentivse your child!</p>
+                            
+                            <form id="rewardsForm">
+                                <div class="form-group">
+                                    <label for="score100">Rewards for 100%</label>
+                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="<%= rewards.find(r => r.scoreRange === '100')?.reward || '-' %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="score6099">Rewards for 60 - 99%</label>
+                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="<%= rewards.find(r => r.scoreRange === '60-99')?.reward || '-' %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="score60">Rewards for < 60%</label>
+                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="<%= rewards.find(r => r.scoreRange === '<60')?.reward || '-' %>">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="saveRewardsBtn">Save Rewards</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body custom-height">
+                            <h5 class="card-title">3. Monitor Your Child's Progress</h5>
+                            <p class="mysubtitle">View the highest score of your child’s spelling practices!</p>
+                            
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -118,28 +146,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body custom-height">
-                            <h5 class="card-title">Reward Your Child</h5>
-                            <form id="rewardsForm">
-                                <div class="form-group">
-                                    <label for="score100">Rewards for 100%</label>
-                                    <input type="text" class="form-control" id="score100" name="score100" placeholder="<%= rewards.find(r => r.scoreRange === '100')?.reward || '-' %>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="score6099">Rewards for 60 - 99%</label>
-                                    <input type="text" class="form-control" id="score6099" name="score6099" placeholder="<%= rewards.find(r => r.scoreRange === '60-99')?.reward || '-' %>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="score60">Rewards for < 60%</label>
-                                    <input type="text" class="form-control" id="score60" name="score60" placeholder="<%= rewards.find(r => r.scoreRange === '<60')?.reward || '-' %>">
-                                </div>
-                                <button type="submit" class="btn btn-primary" id="saveRewardsBtn">Save Rewards</button>
-                            </form>
                         </div>
                     </div>
                 </div>

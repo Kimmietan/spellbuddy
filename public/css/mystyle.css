@@ -183,3 +183,6 @@ body {
     margin-left: 5px; /* Space between the score and the star */
     font-size: 1rem; /* Size of the star */
 }
+.mysubtitle {
+    color: #FF4E78 !important;
+}
