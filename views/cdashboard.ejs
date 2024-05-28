@@ -160,7 +160,8 @@
             var pointsMessage = document.getElementById('pointsMessage');
             var viewSpellingListSection = document.getElementById('viewSpellingListSection');
             var logoutBtn = document.getElementById('logoutBtn');
-
+            
+            //Highlights current word in list, updates word heading, fetches image & sentence, checks if user has reached last word
             function updateSelection() {
                 rows.forEach(function(row, index) {
                     if (index === currentIndex) {
@@ -186,12 +187,13 @@
                     readyBtn.classList.add('d-none');
                 }
             }
-
+            // Moves to next word when user clicks "Next" button
             nextBtn.addEventListener('click', function() {
                 currentIndex = (currentIndex + 1) % words.length;
                 updateSelection();
             });
 
+            //Plays the current word & sentence with a pause in btw when "Listen" button is clicked
             listenBtn.addEventListener('click', function() {
                 var word = words[currentIndex];
                 var wordUtterance = new SpeechSynthesisUtterance(word);
@@ -205,13 +207,14 @@
                     speechSynthesis.speak(sentenceUtterance);
                 }, 1500); // 1.5-second delay between word and sentence
             });
-
+            
+            //Hides the Spelling list section when "Ready for Test" button is clicked
             readyBtn.addEventListener('click', function() {
                 $('#viewSpellingListSection').fadeOut(1000, function() {
                     $(this).remove();
                 });
             });
-
+            //Spelling Test section - plays the word when "Listen" button is clicked
             document.querySelectorAll('.listen-test').forEach(function(button) {
                 button.addEventListener('click', function() {
                     var index = this.getAttribute('data-index');
@@ -221,6 +224,8 @@
                 });
             });
 
+            // When "Submit" button is slicked, checks each word, gives feedback on correct/incorrect answers
+            //calculates score, updates score on server & displays reward message
             submitBtn.addEventListener('click', function() {
                 var points = 0;
                 words.forEach(function(word, index) {
@@ -286,7 +291,8 @@
                     backToListBtn.classList.remove('d-none');
                 }
             });
-
+            
+            //Clears all inputs & feedback messages when "Try Again" button is clicked.
             tryAgainBtn.addEventListener('click', function() {
                 document.querySelectorAll('.test-word-group input').forEach(function(input) {
                     input.value = '';
@@ -295,11 +301,11 @@
                 });
                 pointsMessage.textContent = '';
             });
-
+            //Reloads page when "Back to Spelling List" button is clicked
             backToListBtn.addEventListener('click', function() {
                 window.location.reload();
             });
-
+            //Logout button pressed, redirect to home page
             logoutBtn.addEventListener('click', function() {
                 window.location.href = '/';
             });

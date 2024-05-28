@@ -93,7 +93,7 @@
                     <div class="card">
                         <div class="card-body custom-height">
                             <h5 class="card-title">2. Reward Your Child</h5>
-                            <p class="mysubtitle">Customise rewards to incentivse your child!</p>
+                            <p class="mysubtitle">Customise rewards to incentivise your child!</p>
                             
                             <form id="rewardsForm">
                                 <div class="form-group">
@@ -213,12 +213,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+
+        // Add words to Spelling List
         document.addEventListener('DOMContentLoaded', function() {
             var addWordBtn = document.getElementById('addWordBtn');
             var spellingInputs = document.getElementById('spellingInputs');
             var wordCount = 1;
             var currentListId = null;
 
+            // When "Add Words" button is clicked - adds new input field for another word
             addWordBtn.addEventListener('click', function() {
                 wordCount++;
                 var newInput = document.createElement('div');
@@ -231,6 +234,7 @@
                 document.getElementById(`word${wordCount}`).focus();
             });
 
+            //When "Save Words" button is clicked -  collects list name & words entered, check that all words filled
             document.getElementById('listNameForm').addEventListener('submit', function(event) {
                 event.preventDefault();
                 var listName = document.getElementById('listName').value;
@@ -253,7 +257,7 @@
                     return;
                 }
 
-                // Send listName and words to the server
+                // Send listName and words to the server to save and reloads page if list saved successfully
                 fetch('/save-list', {
                     method: 'POST',
                     headers: {
@@ -274,14 +278,15 @@
                     console.error('Error:', error);
                 });
             });
-
+            
+            //Save Rewards - for diff score ranges
             document.getElementById('rewardsForm').addEventListener('submit', function(event) {
                 event.preventDefault();
                 var score100 = document.getElementById('score100').value;
                 var score6099 = document.getElementById('score6099').value;
                 var score60 = document.getElementById('score60').value;
 
-                // Send rewards to the server
+                // Send rewards to the server, show alert if rewards saved successfully
                 fetch('/save-rewards', {
                     method: 'POST',
                     headers: {
@@ -301,7 +306,7 @@
                     console.error('Error:', error);
                 });
             });
-
+            //Show List of Words when a List is clicked - fetch details from server based on CurrentListId
             document.querySelectorAll('.list-link').forEach(function(link) {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -324,7 +329,7 @@
                         });
                 });
             });
-
+            //Delete a list when delete button is clicked - confirm w user, sends req to server and reloads if list is deleted
             document.getElementById('deleteListBtn').addEventListener('click', function() {
                 if (confirm('Are you sure you want to delete this list?')) {
                     fetch(`/delete-list/${currentListId}`, {

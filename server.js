@@ -31,10 +31,12 @@ app.use(session({
 // Add your Pexels API key in the .env file as PEXELS_API_KEY
 const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
 
+//Renders home page
 app.get('/', (req, res) => {
   res.render('home');
 });
 
+//Retrieves spelling lsit for user or creates new user if not found
 app.post('/get-lists', async (req, res) => {
   const { email } = req.body;
   req.session.email = email;
@@ -57,6 +59,7 @@ app.post('/get-lists', async (req, res) => {
   res.json(user.spellingLists || []);
 });
 
+//Renders parent's db with user's spelling lists & rewards
 app.get('/parent-dashboard', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.redirect('/');
@@ -82,6 +85,7 @@ app.get('/parent-dashboard', async (req, res) => {
   res.render('pdashboard', { lists: listsWithScores, rewards: user.rewards, email });
 });
 
+//Renders child db with current spelling list & rewards
 app.get('/child-dashboard', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.redirect('/');
@@ -112,6 +116,7 @@ app.get('/child-dashboard', async (req, res) => {
   });
 });
 
+//Saves a new spelling list for user
 app.post('/save-list', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.status(403).json({ success: false, error: 'Unauthorized' });
@@ -138,6 +143,7 @@ app.post('/save-list', async (req, res) => {
   }
 });
 
+//Submit test results & updates highest score & reward
 app.post('/submit-test', async (req, res) => {
   const { listId, correctWordsCount, totalWords } = req.body;
 
@@ -178,6 +184,7 @@ app.post('/submit-test', async (req, res) => {
   }
 });
 
+// updates highest score & corresponding reward for a spelling list
 app.post('/update-high-score', async (req, res) => {
   const { userId, listId, score } = req.body;
 
@@ -226,6 +233,7 @@ app.post('/update-high-score', async (req, res) => {
   }
 });
 
+//Retrieves a specific spelling list by ID
 app.get('/get-list/:id', async (req, res) => {
   const { id } = req.params;
   const list = await prisma.spellingList.findUnique({
@@ -237,6 +245,7 @@ app.get('/get-list/:id', async (req, res) => {
   else res.status(404).json({ error: 'List not found' });
 });
 
+//Delete a specific spelling list by ID
 app.delete('/delete-list/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -252,6 +261,7 @@ app.delete('/delete-list/:id', async (req, res) => {
   }
 });
 
+//Saves reward settings for user
 app.post('/save-rewards', async (req, res) => {
   const email = req.session.email;
   if (!email) return res.status(403).json({ success: false, error: 'Unauthorized' });
@@ -289,6 +299,7 @@ app.post('/save-rewards', async (req, res) => {
   }
 });
 
+//Retrieves an image for a given word from Pexels API
 app.get('/get-image/:word', async (req, res) => {
   const { word } = req.params;
   try {
@@ -305,6 +316,7 @@ app.get('/get-image/:word', async (req, res) => {
   }
 });
 
+//Generates a simple sentence using a given word from OpenAI API
 app.get('/get-sentence/:word', async (req, res) => {
   const { word } = req.params;
   try {

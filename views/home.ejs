@@ -86,11 +86,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    // Optionally, you can use AJAX to submit the form and handle the redirect in JavaScript
+    // listen for form submission with ID 'emailForm', gets email value typed in by user
     document.getElementById('emailForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('userEmail').value;
-
+      
+      //sends email to server, using the POST method, checks if server response is ok, redirects to pdashboard
       fetch('/get-lists', {
         method: 'POST',
         headers: {
